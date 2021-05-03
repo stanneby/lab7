@@ -180,7 +180,7 @@ public class MainFrame extends JFrame {
             }
             if(!flag) {
                 JOptionPane.showMessageDialog(this,
-                        "Имя отправителя некорректно", "Ошибка",
+                        "Адрес узла-получателя некорректен", "Ошибка",
                         JOptionPane.ERROR_MESSAGE);
                 textFieldTo.requestFocus();
                 return;
