@@ -162,27 +162,35 @@ public class MainFrame extends JFrame {
             final String senderName = textFieldFrom.getText();
             final String destinationAddress = textFieldTo.getText();
             final String message = textAreaOutgoing.getText();
-            final String[] stringArray = destinationAddress.split("\\.");
+
+            // Проводим проверку корректности адреса
+
+            // Выставляем флаг корректности.
+            // Если true, то адрес корректен. false - некорректен
             boolean flag = true;
+            // Разделяем строку на массив строк по точкам
+            final String[] stringArray = destinationAddress.split("\\.");
+            // Если адрес состоит не из четырех строк, разделенный точками
             if(stringArray.length != 4){
-                flag = false;
+                flag = false; // То адрес некорректен
             } else {
+                // Усли хотя бы одна из строк между точек
                 for(int i = 0; i < 4; i++){
                     try {
-                        int num = Integer.parseInt(stringArray[i]);
-                        if( num < 0 || num > 127 ){
-                            flag = false;
+                        int num = Integer.parseInt(stringArray[i]); // Во-первых не число
+                        if( num < 0 || num > 127 ){ // Во-вторых за пределами
+                            flag = false; // То адрес некорректен
                         }
                     } catch (NumberFormatException e) {
-                        flag = false;
+                        flag = false; // Адрес некорректен
                     }
                 }
             }
-            if(!flag) {
-                JOptionPane.showMessageDialog(this,
+            if(!flag) { // Если адрес некорректен
+                JOptionPane.showMessageDialog(this, // Выводим окно
                         "Адрес узла-получателя некорректен", "Ошибка",
                         JOptionPane.ERROR_MESSAGE);
-                textFieldTo.requestFocus();
+                textFieldTo.requestFocus(); // Переводим курсор на текстовое поле
                 return;
             }
 // Убеждаемся, что поля не пустые
