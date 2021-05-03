@@ -11,6 +11,7 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -161,6 +162,26 @@ public class MainFrame extends JFrame {
             final String senderName = textFieldFrom.getText();
             final String destinationAddress = textFieldTo.getText();
             final String message = textAreaOutgoing.getText();
+            final String[] stringArray = destinationAddress.split("\\.");
+            boolean flag = true;
+            if(stringArray.length != 4){
+                flag = false;
+            } else {
+                for(int i = 0; i < 4; i++){
+                    try {
+                        int num = Integer.parseInt(stringArray[i]);
+                        if( num < 0 || num > 127 ){
+                            flag = false;
+                        }
+                    } catch (NumberFormatException e) {
+                        flag = false;
+                    }
+                }
+            }
+            if(!flag) {
+                System.out.println("Адрес некорректен");
+                return;
+            }
 // Убеждаемся, что поля не пустые
             if (senderName.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
@@ -202,11 +223,13 @@ public class MainFrame extends JFrame {
             JOptionPane.showMessageDialog(MainFrame.this,
                     "Не удалось отправить сообщение: узел-адресат не найден",
                     "Ошибка", JOptionPane.ERROR_MESSAGE);
+            textFieldTo.requestFocus();
         } catch (IOException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(MainFrame.this,
                     "Не удалось отправить сообщение", "Ошибка",
                     JOptionPane.ERROR_MESSAGE);
+            textFieldTo.requestFocus();
         }
     }
     public static void main(String[] args) {
