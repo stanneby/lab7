@@ -179,7 +179,10 @@ public class MainFrame extends JFrame {
                 }
             }
             if(!flag) {
-                System.out.println("Адрес некорректен");
+                JOptionPane.showMessageDialog(this,
+                        "Имя отправителя некорректно", "Ошибка",
+                        JOptionPane.ERROR_MESSAGE);
+                textFieldTo.requestFocus();
                 return;
             }
 // Убеждаемся, что поля не пустые
